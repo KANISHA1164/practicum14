@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CodeNest Quiz</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: lightblue;
+            padding: 20px;
+        }
+
+        .quiz {
+            background: white;
+            padding: 20px;
+            width: 400px;
+            margin: auto;
+        }
+
+        button {
+            background: blue;
+            color: white;
+            padding: 10px;
+        }
+
+        label {
+            display: block;
+            padding: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="quiz">
+
+        <h1>CodeNest Quick Quiz</h1>
+
+        <p id="progress"></p>
+
+        <h2 id="question"></h2>
+
+        <div id="options"></div>
+
+        <button onclick="nextQuestion()">Next</button>
+
+        <p id="result"></p>
+
+    </div>
+
+    <script>
+
+        let questions = [
+            {
+                q: "Which language creates web page structure?",
+                options: ["HTML", "CSS", "SQL"],
+                answer: "HTML"
+            },
+
+            {
+                q: "Which language styles web pages?",
+                options: ["Python", "CSS", "C"],
+                answer: "CSS"
+            },
+
+            {
+                q: "Which language adds interactivity?",
+                options: ["JavaScript", "HTML", "XML"],
+                answer: "JavaScript"
+            }
+        ];
+
+        let current = 0;
+        let score = 0;
+        let selected = "";
+
+        function showQuestion() {
+
+            document.getElementById("progress").innerHTML =
+            "Question " + (current + 1);
+
+            document.getElementById("question").innerHTML =
+            questions[current].q;
+
+            let options = document.getElementById("options");
+
+            options.innerHTML = "";
+            selected = "";
+
+            questions[current].options.forEach(function(option) {
+
+                options.innerHTML +=
+                "<label><input type='radio' name='choice' value='" +
+                option + "' onchange='selected=this.value'> " +
+                option + "</label>";
+
+            });
+
+        }
+
+        function nextQuestion() {
+
+            if (selected == "") {
+                document.getElementById("result").innerHTML =
+                "Select an answer!";
+                return;
+            }
+
+            if (selected == questions[current].answer) {
+                score++;
+            }
+
+            current++;
+
+            if (current < questions.length) {
+                showQuestion();
+            }
+
+            else {
+
+                document.getElementById("question").innerHTML =
+                "Your Score: " + score + "/" + questions.length;
+
+                document.getElementById("options").innerHTML = "";
+
+                document.getElementById("progress").innerHTML =
+                "Quiz Completed";
+
+                document.querySelector("button").style.display = "none";
+
+            }
+
+        }
+
+        showQuestion();
+
+    </script>
+
+</body>
+</html>
